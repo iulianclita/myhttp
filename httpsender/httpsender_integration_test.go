@@ -67,20 +67,4 @@ func TestMake_integration(t *testing.T) {
 			}
 		})
 	}
-
-	r, err := http.NewRequest(http.MethodGet, s.URL, nil)
-	if err != nil {
-		t.Fatalf("Failed creating request: %v", err)
-	}
-
-	want := "5c0b86b58d53e45967b9105e84ace15f"
-	got, err := httpsender.Make(c, r)
-
-	if got != want {
-		t.Errorf("Make() = %s; want %s", got, want)
-	}
-
-	if err != nil {
-		t.Errorf("Error is %v; want nil", err)
-	}
 }
