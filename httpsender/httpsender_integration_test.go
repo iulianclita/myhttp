@@ -58,9 +58,7 @@ func TestMake_integration(t *testing.T) {
 				if err != nil {
 					t.Errorf("Error is %v; want nil", err)
 				}
-			}
-
-			if !tc.errNil {
+			} else {
 				if err == nil {
 					t.Errorf("Error is nil; want %v", err)
 				}
