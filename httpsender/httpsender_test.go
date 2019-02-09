@@ -20,7 +20,7 @@ type fakeClient struct {
 func (fc fakeClient) Do(req *http.Request) (*http.Response, error) {
 	if fc.reachableURL {
 		return &http.Response{
-			Body: ioutil.NopCloser(strings.NewReader("I love Go")),
+			Body: ioutil.NopCloser(strings.NewReader("<h1>I love Go</h1>")),
 		}, nil
 	}
 
@@ -35,7 +35,7 @@ func TestMake(t *testing.T) {
 	}{
 		"URL is reachable": {
 			reachableURL: true,
-			hash:         "3beabce759f9cefc252844a87d3601b2",
+			hash:         "5c0b86b58d53e45967b9105e84ace15f",
 			err:          nil,
 		},
 		"URL is NOT reachable": {
