@@ -15,6 +15,7 @@ import (
 	"github.com/iulianclita/myhttp/httpsender"
 )
 
+// This flag keeps the maximum number of parallel HTTP requests
 var parallel int
 
 func init() {
@@ -30,6 +31,7 @@ func main() {
 
 	args := flag.Args()
 
+	// Extract urls from input
 	var urls []string
 	for _, arg := range args {
 		var url = arg
@@ -48,6 +50,8 @@ func main() {
 
 	sem := make(chan struct{}, parallel)
 
+	// Listen to SIGINT (Ctrl + C) signals to cancel in-flight requests
+	// and shutdown gracefully
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt)
 
@@ -55,6 +59,7 @@ func main() {
 
 	go func() {
 		<-sig
+		// Cancel all in-flight requests
 		for fn := range ctxCf {
 			fn()
 		}
@@ -71,11 +76,10 @@ func main() {
 			if err != nil {
 				log.Fatal("Cannot create request for url", url)
 			}
-
+			// Buffer all cancel funcs to have the possibility of terminating in-flight requests
 			ctx, cancel := context.WithCancel(req.Context())
 			req = req.WithContext(ctx)
 			ctxCf <- cancel
-			// hash, err := fetch(c, req)
 			hash, err := httpsender.Make(c, req)
 			if err != nil {
 				fmt.Printf("Failed to fetch url %s: %v\n", url, err)
