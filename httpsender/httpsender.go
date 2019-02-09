@@ -12,8 +12,8 @@ type Sender interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-// SendRequest sends a request using the provided sender client
-func SendRequest(s Sender, req *http.Request) (string, error) {
+// Make sends a request using the provided sender client
+func Make(s Sender, req *http.Request) (string, error) {
 	res, err := s.Do(req)
 	if err != nil {
 		return "", err

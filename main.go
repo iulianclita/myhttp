@@ -76,7 +76,7 @@ func main() {
 			req = req.WithContext(ctx)
 			ctxCf <- cancel
 			// hash, err := fetch(c, req)
-			hash, err := httpsender.SendRequest(c, req)
+			hash, err := httpsender.Make(c, req)
 			if err != nil {
 				fmt.Printf("Failed to fetch url %s: %v\n", url, err)
 				return
