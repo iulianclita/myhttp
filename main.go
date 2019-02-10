@@ -23,9 +23,20 @@ func init() {
 }
 
 func main() {
+
+	if len(os.Args) == 1 {
+		showHelp()
+		return
+	}
+
+	if len(os.Args) == 2 && os.Args[1] == "--help" {
+		showHelp()
+		return
+	}
+
 	flag.Parse()
 	if flag.NArg() == 0 {
-		flag.Usage()
+		showHelp()
 		return
 	}
 
@@ -92,4 +103,23 @@ func main() {
 
 	wg.Wait()
 	close(ctxCf)
+}
+
+func showHelp() {
+	help := `Myhttp is a tool that fetches the content of multiple urls and prints each one of them on a separate line 
+along with the corresponding MD5 hash of the HTML content located at the current url.
+			
+Usage:
+			
+$> ./myhttp golang.org google.com
+http://www.golang.org d1b40e2a2ba488a054186e4ed0733f9752f66949
+http://google.com 9d8ec921bdd275fb2a605176582e08758eb60641
+
+Use the -parallel flag to control the maximum number of parallel HTTP requests
+
+$> ./myhttp -parallel 3 golang.org google.com
+http://www.golang.org d1b40e2a2ba488a054186e4ed0733f9752f66949
+http://google.com 9d8ec921bdd275fb2a605176582e08758eb60641`
+
+	fmt.Println(help)
 }
