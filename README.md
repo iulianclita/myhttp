@@ -31,11 +31,11 @@ http://google.com 9d8ec921bdd275fb2a605176582e08758eb60641
 To run all unit tests do the following:
 ```sh
 cd /path/to/myhttp/source
-go test
+go test -v ./...
 ```
 
 To run integration tests add the integration tag:
 ```sh
 cd /path/to/myhttp/source
-go test -tags integration
+go test -v -tags integration ./...
 ```
